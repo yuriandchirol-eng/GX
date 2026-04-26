@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://cool-nasturtium-50729a.netlify.app/ -->
+<html lang="ja" data-arp=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>環境用語 完全制覇50枚</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #eef2f3; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; min-height: 100vh; }
+        h1 { font-size: 1.2rem; color: #34495e; margin-bottom: 10px; }
+        .card-container { width: 95%; max-width: 450px; height: 320px; perspective: 1000px; cursor: pointer; }
+        .card { width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; position: relative; }
+        .card.is-flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 25px; box-sizing: border-box; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); text-align: center; }
+        .card-front { background: #ffffff; color: #2c3e50; border: 3px solid #27ae60; }
+        .card-back { background: #27ae60; color: #ffffff; transform: rotateY(180deg); overflow-y: auto; justify-content: flex-start; }
+        .term { font-size: 1.4rem; font-weight: bold; margin-bottom: 8px; line-height: 1.2; }
+        .reading { font-size: 0.85rem; color: #7f8c8d; margin-bottom: 15px; }
+        .description { font-size: 0.95rem; line-height: 1.6; text-align: left; margin-top: 10px; }
+        .controls { margin-top: 25px; display: flex; gap: 15px; width: 100%; max-width: 450px; justify-content: center; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 12px; background: #34495e; color: white; font-size: 1rem; font-weight: bold; cursor: pointer; active { opacity: 0.8; } }
+        .progress { margin-top: 15px; font-weight: bold; color: #2c3e50; }
+        .hint { font-size: 0.8rem; color: #95a5a6; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<h1>🌍 環境・GX用語 暗記カード</h1>
+
+<div class="card-container" onclick="flipCard()">
+    <div class="card" id="card">
+        <div class="card-face card-front">
+            <div id="front-term" class="term">1.5℃特別報告書</div>
+            <div id="front-reading" class="reading">1.5ど とくべつほうこくしょ</div>
+            <div class="hint">タップで意味を確認</div>
+        </div>
+        <div class="card-face card-back">
+            <div id="back-desc" class="description">2018年にIPCCが公表。1.5℃に抑える必要性と、2050年頃に排出を実質ゼロにする必要があると示しました。</div>
+        </div>
+    </div>
+</div>
+
+<div class="progress" id="progress">1 / 52</div>
+
+<div class="controls">
+    <button onclick="prevCard(event)">前へ</button>
+    <button onclick="nextCard(event)">次へ</button>
+</div>
+
+<script>
+    const data = [
+        { term: "1.5℃特別報告書", reading: "1.5ど とくべつほうこくしょ", desc: "2018年にIPCCが公表。1.5℃に抑える必要性と、2050年頃に排出を実質ゼロにする必要があると示しました。" },
+        { term: "COP", reading: "コップ (締約国会議)", desc: "気候変動や生物多様性などのルールを決める、国際条約を結んだ国々の最高決定機関。" },
+        { term: "CBAM", reading: "シーバム (炭素国境調整措置)", desc: "規制がゆるい国へ工場が移る「炭素リーケージ」を防ぐため、貿易時に炭素価格を調整する仕組み。" },
+        { term: "ESG投資", reading: "イーエスジーとうし", desc: "環境(E)・社会(S)・ガバナンス(G)の3要素を重視して投資先を選ぶ手法。" },
+        { term: "GX", reading: "グリーントランスフォーメーション", desc: "社会構造を化石燃料中心からクリーンエネルギー中心へと大規模に変革すること。" },
+        { term: "GX推進法", reading: "ジーエックスすいしんほう", desc: "日本のGX政策の柱。GX経済移行債の発行や、企業の投資を支援する枠組みを定めた法律。" },
+        { term: "IPCC", reading: "アイピーシーシー", desc: "気候変動に関する政府間パネル。各国の対策の根拠となる科学的評価報告書を作成する国際組織。" },
+        { term: "LCA", reading: "ライフサイクルアセスメント", desc: "資源採取から廃棄まで、製品の全一生を通じた環境影響を数字で評価する手法。" },
+        { term: "RE100", reading: "アールイー100", desc: "事業で使用する電力を100%再生可能エネルギーで賄うことを目指す国際的な企業連合。" },
+        { term: "SBT", reading: "エスビーティー", desc: "パリ協定に整合した、科学的根拠に基づく企業の温室効果ガス削減目標。" },
+        { term: "SSBJ", reading: "サステナビリティ基準委員会", desc: "日本企業が環境への取り組みを開示する際の、国内基準を作る専門機関。" },
+        { term: "TCFD", reading: "ティーシーエフディー", desc: "企業が気候変動のリスクや機会について財務情報を開示するためのガイドラインを策定した組織。" },
+        { term: "UNFCCC", reading: "気候変動枠組条約", desc: "1992年に採択。温室効果ガスの濃度を安定させることを目的とした国際的な枠組み。" },
+        { term: "AZEC", reading: "アジア・ゼロエミッション共同体", desc: "日本が主導し、アジア諸国と一緒に脱炭素と経済成長の両立を目指す枠組み。" },
+        { term: "EnMS", reading: "エネルギーマネジメントシステム", desc: "ICTを使ってエネルギー使用を監視・制御し、効率化を図るシステム。" },
+        { term: "オーバーシュート", reading: "オーバーシュート", desc: "気温上昇が一時的に目標水準（1.5℃など）を超えてしまう状態。生態系への悪影響が懸念されます。" },
+        { term: "温室効果ガス (GHG)", reading: "おんしつこうかガス", desc: "CO2やメタンなど、地表からの熱を吸収して大気を温める性質を持つガスの総称。" },
+        { term: "カーボンクレジット", reading: "カーボンクレジット", desc: "排出削減量を「証書」にして取引する仕組み。削減しきれない分を購入して相殺できます。" },
+        { term: "カーボンニュートラル", reading: "カーボンニュートラル", desc: "温室効果ガスの排出量と吸収量をプラスマイナスゼロにすること。" },
+        { term: "カーボンバジェット", reading: "炭素予算 (たんそよさん)", desc: "目標気温を超えないために、あとどれくらいCO2を排出できるかという残りの累積許容量。" },
+        { term: "カーボンフットプリント", reading: "CFP", desc: "製品のライフサイクルで出たCO2量を、商品のパッケージ等に「見える化」して表示する仕組み。" },
+        { term: "カーボンプライシング", reading: "カーボンプライシング", desc: "炭素税や排出量取引など、排出される炭素に価格を付ける政策。排出削減を促します。" },
+        { term: "カーボン・オフセット", reading: "カーボン・オフセット", desc: "削減しきれない排出量を、他の場所での削減活動（植林など）への投資で埋め合わせること。" },
+        { term: "緩和 (かんわ)", reading: "かんわ", desc: "GHGの排出削減や吸収源の強化など、温暖化の進行そのものを抑える対策。" },
+        { term: "適応 (てきおう)", reading: "てきおう", desc: "起きてしまう気候変動の影響に対し、被害を軽減し備える対策（防災や品種改良など）。" },
+        { term: "京都議定書", reading: "きょうとぎていしょ", desc: "1997年採択。先進国に対して法的拘束力のある排出削減目標を初めて課した国際条約。" },
+        { term: "気候変動", reading: "きこうへんどう", desc: "地球の気候システムが長期的に変化すること。主に人間の活動によるGHG増加が原因。" },
+        { term: "グリーンウォッシュ", reading: "グリーンウォッシュ", desc: "実態が伴わないのに、環境に配慮しているように見せかけて消費者を誤解させる行為。" },
+        { term: "GXスチール", reading: "グリーンスチール", desc: "水素還元製鉄など、製造時のCO2排出を大幅に抑えた環境配慮型の鉄鋼製品。" },
+        { term: "グリーン成長戦略", reading: "グリーンせいちょうせんりゃく", desc: "日本政府が2020年に発表。環境対策を「経済成長のチャンス」と捉えた14分野の実行計画。" },
+        { term: "グローバルストックテイク", reading: "グローバルストックテイク", desc: "パリ協定の進捗を世界全体で5年ごとに評価し、対策を強化させる仕組み。" },
+        { term: "IEA", reading: "国際エネルギー機関", desc: "世界のエネルギー安全保障や脱炭素化のデータ分析・政策提言を行う国際機関。" },
+        { term: "サーキュラーエコノミー", reading: "じゅんかんがたけいざい", desc: "廃棄物を最小限にし、資源を再利用・リサイクルし続ける経済モデル。" },
+        { term: "再生可能エネルギー", reading: "さいせいかのうえねるぎー", desc: "太陽光、風力、水力など、自然界に常に存在し繰り返し使えるエネルギー。" },
+        { term: "削減貢献量", reading: "さくげんこうけんりょう", desc: "自社の製品・サービスを使うことで、社会全体の排出量をどれだけ減らせたかを示す指標。" },
+        { term: "Scope 1 (スコープ1)", reading: "スコープ 1", desc: "事業者が「自ら」燃料を燃やすことで直接排出する温室効果ガスの量。" },
+        { term: "Scope 2 (スコープ2)", reading: "スコープ 2", desc: "他社から供給された「電気や熱」を使うことで間接的に排出されるガスの量。" },
+        { term: "Scope 3 (スコープ3)", reading: "スコープ 3", desc: "原材料調達、配送、製品の使用・廃棄など、自社以外のサプライチェーン全体での排出。" },
+        { term: "生物多様性", reading: "せいぶつたようせい", desc: "地球上の生きものの豊かな個性と、それらが支え合っているつながりのこと。" },
+        { term: "ゼロエミッション", reading: "ゼロエミッション", desc: "廃棄物や温室効果ガスの排出をゼロにすることを目指す考え方。" },
+        { term: "ダイベストメント", reading: "ダイベストメント", desc: "化石燃料関連など、環境負荷の高い企業から投資資金を引き上げること。" },
+        { term: "脱炭素 (Decarbonization)", reading: "だつたんそ", desc: "石炭や石油などの化石燃料への依存を脱し、CO2排出をゼロにすること。" },
+        { term: "地球温暖化係数", reading: "GWP", desc: "CO2を基準(1)として、他のガス（メタン等）がどれくらい強力な温室効果を持つか示す値。" },
+        { term: "デカップリング", reading: "デカップリング", desc: "「経済成長」と「環境負荷の増大」の連動を切り離すこと。成長しても排出は減る状態。" },
+        { term: "ドロップイン燃料", reading: "ドロップインねんりょう", desc: "SAF（航空燃料）など、既存のエンジンや設備をそのまま使える環境配慮型燃料。" },
+        { term: "ネイチャー・ポジティブ", reading: "自然再興 (しぜんさいこう)", desc: "自然の損失を止め、回復軌道に乗せること。カーボンニュートラルと並ぶ世界目標。" },
+        { term: "ネガティブエミッション", reading: "ネガティブエミッション", desc: "植林や技術（DACCS等）を使って、大気中からCO2を直接吸収・除去すること。" },
+        { term: "パリ協定", reading: "パリきょうてい", desc: "2015年採択。途上国を含む全ての国が参加し、1.5℃目標に向けて努力する国際的な約束。" },
+        { term: "プラスチック資源循環促進法", reading: "プラしげんじゅんかんほう", desc: "2022年施行。プラ製品の設計から回収・リサイクルまで全体で資源循環を促す法律。" },
+        { term: "ブルーカーボン", reading: "ブルーカーボン", desc: "マングローブや海草などの海洋生態系によって吸収・固定される炭素のこと。" },
+        { term: "モーダルシフト", reading: "モーダルシフト", desc: "トラックから鉄道や船など、より環境負荷の低い輸送手段へ転換すること。" },
+        { term: "モントリオール議定書", reading: "モントリオールぎていしょ", desc: "オゾン層を破壊するフロン類を規制するための条約。現在は代替フロンも規制対象。" }
+    ];
+
+    let currentIndex = 0;
+    const card = document.getElementById('card');
+
+    function updateCard() {
+        card.classList.remove('is-flipped');
+        setTimeout(() => {
+            document.getElementById('front-term').innerText = data[currentIndex].term;
+            document.getElementById('front-reading').innerText = data[currentIndex].reading;
+            document.getElementById('back-desc').innerText = data[currentIndex].desc;
+            document.getElementById('progress').innerText = `${currentIndex + 1} / ${data.length}`;
+        }, 150);
+    }
+
+    function flipCard() {
+        card.classList.toggle('is-flipped');
+    }
+
+    function nextCard(e) {
+        e.stopPropagation();
+        currentIndex = (currentIndex + 1) % data.length;
+        updateCard();
+    }
+
+    function prevCard(e) {
+        e.stopPropagation();
+        currentIndex = (currentIndex - 1 + data.length) % data.length;
+        updateCard();
+    }
+
+    updateCard();
+</script>
+
+</body></html>
